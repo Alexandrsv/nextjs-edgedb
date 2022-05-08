@@ -5,7 +5,12 @@ const Home: NextPage = () => {
   const save = (args: NewUser) => {
     console.log({ args });
   };
-  return <NewUserCard save={save} />;
+  return (
+    <>
+      <h1 className="text-3xl font-bold underline">tailwindcss</h1>
+      <NewUserCard save={save} />
+    </>
+  );
 };
 
 export default Home;
