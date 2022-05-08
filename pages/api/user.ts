@@ -1,9 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { createClient } from "edgedb";
-import e, { $infer } from "../../dbschema/edgeql-js";
-
-export const client = createClient();
+import { client, e } from "../../client";
+import { $infer } from "../../dbschema/edgeql-js";
 
 const getUsersQuery = e.select(e.User, () => ({
   id: true,
