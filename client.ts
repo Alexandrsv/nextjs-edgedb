@@ -1,10 +1,15 @@
 import { createClient } from "edgedb";
 import e from "./dbschema/edgeql-js";
+import { ConnectOptions } from "edgedb";
 
-// reads value of EDGEDB_DSN automatically
-export const client = createClient({
-  // TLS configuration is beyond the scope of this example project
+let options: ConnectOptions = {
   tlsSecurity: "insecure",
-});
+};
+
+if (process.env.DOCKER === "true") {
+  options.dsn = process.env.EDGEDB_DOCKER_DSN_OPTIONS;
+}
+
+export const client = createClient(options);
 
 export { e };

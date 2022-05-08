@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  edgedb:
+    image: edgedb/edgedb
+    environment:
+      EDGEDB_SERVER_DATABASE: edgedb
+      EDGEDB_SERVER_USER: edgedb
+      EDGEDB_SERVER_PASSWORD: ${DB_SECRET}
+      EDGEDB_SERVER_DATADIR: /var/lib/edgedb/data
+      EDGEDB_SERVER_TLS_CERT_MODE: generate_self_signed
+      EDGEDB_SERVER_SECURITY: insecure_dev_mode
+    volumes:
+      - "./dbschema:/dbschema"
+#      - "./edgedb.toml:/edgedb.toml"
+      #      - "./credentials:/root/.config/edgedb/credentials"
+      - "./data:/var/lib/edgedb/data"
+    ports:
+      - ${EDGEDB_DOCKER_PORT}:5656

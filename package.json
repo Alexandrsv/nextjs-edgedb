@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:docker": "DOCKER=true next dev",
+    "start:docker": "DOCKER=true next start",
     "build": "next build",
     "start": "next start",
+    "clinic": "clinic doctor --on-port 'autocannon -c 100 -d 20 -m GET localhost:3000/' -- node ./node_modules/.bin/next start",
     "analyze": "ANALYZE=true next build",
     "lint": "next lint"
   },

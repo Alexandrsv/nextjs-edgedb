@@ -22,7 +22,9 @@ export type GetUsers = $infer<typeof getUsersQuery>;
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<GetUsers | { id: string }>
+  res: NextApiResponse<
+    (GetUsers & { id?: string }) | { error: { message: string } }
+  >
 ) {
   if (req.method === "POST") {
     const result = await addUserQuery({
@@ -32,6 +34,12 @@ export default async function handler(
     res.status(200).json(result);
     return;
   }
-  const users = await getUsersQuery.run(client);
-  res.status(200).json(users);
+  try {
+    const users = await getUsersQuery.run(client);
+    res.status(200).json(users);
+  } catch (e) {
+    // @ts-ignore
+    res.status(500).json({ error: e?.message });
+    return;
+  }
 }
