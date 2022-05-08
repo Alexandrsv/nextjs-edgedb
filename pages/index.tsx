@@ -26,9 +26,12 @@ const Home: NextPage = () => {
       <h1 className="text-3xl font-bold ml-10 mt-5">Тест NextJS + EdgeDB</h1>
       <div className={"flex flex-wrap justify-start mt-5 ml-10 gap-5"}>
         <NewUserCard save={save} />
-        {users.map((user) => (
-          <UserCard key={user.id} {...user} />
-        ))}
+        {users
+          .slice(0)
+          .reverse()
+          .map((user) => (
+            <UserCard key={user.id} {...user} />
+          ))}
       </div>
     </>
   );
