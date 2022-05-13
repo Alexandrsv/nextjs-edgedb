@@ -1,0 +1,5 @@
+data
+dbschema/edgeql-js
+dbschema/edgeql-js/**/*
+.next
+.clinic

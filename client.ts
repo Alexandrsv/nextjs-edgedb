@@ -7,7 +7,7 @@ let options: ConnectOptions = {
 };
 
 if (process.env.DOCKER === "true") {
-  options.dsn = process.env.EDGEDB_DOCKER_DSN_OPTIONS;
+  options.dsn = process.env.EDGEDB_DSN;
 }
 
 export const client = createClient(options);

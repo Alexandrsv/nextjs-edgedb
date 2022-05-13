@@ -1,0 +1,8 @@
+{
+  "host": "db",
+  "port": 5655,
+  "user": "edgedb",
+  "password": "1123581321",
+  "database": "edgedb",
+  "tls_security": "insecure"
+}

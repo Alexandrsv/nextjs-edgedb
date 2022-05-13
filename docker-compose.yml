@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  edgedb:
+  db:
     image: edgedb/edgedb
     environment:
       EDGEDB_SERVER_DATABASE: edgedb
@@ -11,8 +11,18 @@ services:
       EDGEDB_SERVER_SECURITY: insecure_dev_mode
     volumes:
       - "./dbschema:/dbschema"
-#      - "./edgedb.toml:/edgedb.toml"
       #      - "./credentials:/root/.config/edgedb/credentials"
       - "./data:/var/lib/edgedb/data"
     ports:
       - ${EDGEDB_DOCKER_PORT}:5656
+  nextjs:
+    env_file:
+      - .env
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    command: "npx edgeql-js"
+    depends_on:
+      - db
+
