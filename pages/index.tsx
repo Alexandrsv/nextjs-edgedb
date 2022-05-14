@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import NewUserCard from "../components/NewUserCard/NewUserCard";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { addUser, getUsers, removeUser, User } from "../api/usersClientApi";
-import { UserCard } from "../components/UserCard/UserCard";
+import { UserCardMemo } from "../components/UserCard/UserCard";
 
 const Home: NextPage = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -22,15 +22,19 @@ const Home: NextPage = () => {
     setUsers((users) => [...users, { id: response.id, ...args }]);
   };
 
-  const remove = async (id?: string) => {
-    if (!id) {
-      return;
-    }
-    const response = await removeUser(id);
-    if (response.status === 204) {
-      setUsers((users) => users.filter((user) => user.id !== id));
-    }
-  };
+  const remove = useCallback(
+    async (id?: string) => {
+      if (!id) {
+        return;
+      }
+      const response = await removeUser(id);
+      if (response.status === 204) {
+        setUsers((users) => users.filter((user) => user.id !== id));
+      }
+    },
+    [setUsers]
+  );
+
   return (
     <>
       <h1 className="text-3xl font-bold ml-10 mt-5">Тест NextJS + EdgeDB</h1>
@@ -41,7 +45,11 @@ const Home: NextPage = () => {
           .slice(0)
           .reverse()
           .map((user) => (
-            <UserCard key={user.id} {...user} remove={() => remove(user.id)} />
+            <UserCardMemo
+              key={user.id}
+              {...user}
+              remove={() => remove(user.id)}
+            />
           ))}
       </div>
     </>

@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { User } from "../../api/usersClientApi";
 
 export const UserCard: FC<
@@ -6,11 +6,17 @@ export const UserCard: FC<
 > = ({ name, avatar, save, remove }) => {
   const [visibleRemove, setVisibleRemove] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const img = useRef<HTMLImageElement>(null);
 
-  const loadHandler = (e: SyntheticEvent<HTMLImageElement, Event>) => {
-    console.log("loadHandler", name, e);
-    setLoaded(true);
-  };
+  const placeholderUrl = "https://vk.com/images/camera_200.png";
+
+  console.log({ name, img });
+  useEffect(() => {
+    if (img.current) {
+      setLoaded(img.current.complete);
+    }
+  }, [img.current]);
+
   return (
     <div
       className={
@@ -20,14 +26,14 @@ export const UserCard: FC<
       onMouseLeave={() => setVisibleRemove(false)}
     >
       {!loaded && (
-        <img
-          src={"https://vk.com/images/camera_200.png"}
-          alt={"ava"}
-          className={"w-full"}
-          onLoad={() => setLoaded(true)}
-        />
+        <img src={placeholderUrl} alt={"placeholder"} className={"w-full"} />
       )}
-      <img src={avatar} alt={"ava"} className={"w-full"} onLoad={loadHandler} />
+      <img
+        src={avatar}
+        ref={img}
+        alt={"ava"}
+        className={loaded ? "w-full" : "h-0"}
+      />
       <div>{name}</div>
       {!save && visibleRemove && (
         // top right remove button with remove icon
@@ -57,3 +63,5 @@ export const UserCard: FC<
     </div>
   );
 };
+
+export const UserCardMemo = React.memo(UserCard);
