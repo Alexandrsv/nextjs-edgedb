@@ -47,8 +47,8 @@ export default async function handler(
     return;
   }
   if (req.method === "DELETE") {
-    const result = await removeUserQuery(req.query.id as string).run(client);
-    res.status(204).send("ok");
+    await removeUserQuery(req.query.id as string).run(client);
+    res.status(204).send("");
     return;
   }
   try {
