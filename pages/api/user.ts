@@ -18,12 +18,24 @@ const addUserQuery: (args: { name: string; avatar: string }) => any = ({
     avatar,
   });
 
+const removeUserQuery = (id: string) => {
+  // return `delete User filter .id = ${id};`;
+  // return e.delete(e.User, {
+  //   filter: {
+  //     user.id == id;
+  //   }
+  // });
+  return e.delete(e.User, (user) => ({
+    filter: e.op(user.id, `=`, e.uuid(id)),
+  }));
+};
+
 export type GetUsers = $infer<typeof getUsersQuery>;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<
-    (GetUsers & { id?: string }) | { error: { message: string } }
+    (GetUsers & { id?: string }) | string | { error: { message: string } }
   >
 ) {
   if (req.method === "POST") {
@@ -32,6 +44,11 @@ export default async function handler(
       avatar: req.body.avatar,
     }).run(client);
     res.status(200).json(result);
+    return;
+  }
+  if (req.method === "DELETE") {
+    const result = await removeUserQuery(req.query.id as string).run(client);
+    res.status(204).send("ok");
     return;
   }
   try {

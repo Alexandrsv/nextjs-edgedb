@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import NewUserCard from "../components/NewUserCard/NewUserCard";
 import { useEffect, useState } from "react";
-import { addUser, getUsers, User } from "../api/usersClientApi";
+import { addUser, getUsers, removeUser, User } from "../api/usersClientApi";
 import { UserCard } from "../components/UserCard/UserCard";
 
 const Home: NextPage = () => {
@@ -21,16 +21,27 @@ const Home: NextPage = () => {
     console.log({ args, response });
     setUsers((users) => [...users, { id: response.id, ...args }]);
   };
+
+  const remove = async (id?: string) => {
+    if (!id) {
+      return;
+    }
+    const response = await removeUser(id);
+    if (response.status === 204) {
+      setUsers((users) => users.filter((user) => user.id !== id));
+    }
+  };
   return (
     <>
       <h1 className="text-3xl font-bold ml-10 mt-5">Тест NextJS + EdgeDB</h1>
       <div className={"flex flex-wrap justify-start mt-5 ml-10 gap-5"}>
         <NewUserCard save={save} />
+
         {users
           .slice(0)
           .reverse()
           .map((user) => (
-            <UserCard key={user.id} {...user} />
+            <UserCard key={user.id} {...user} remove={() => remove(user.id)} />
           ))}
       </div>
     </>

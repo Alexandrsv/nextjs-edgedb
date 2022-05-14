@@ -1,17 +1,31 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { User } from "../../api/usersClientApi";
 
-export const UserCard: FC<User & { save?: (args: User) => void }> = ({
-  name,
-  avatar,
-  save,
-}) => {
+export const UserCard: FC<
+  User & { save?: (args: User) => void; remove?: () => void }
+> = ({ name, avatar, save, remove }) => {
+  const [visibleRemove, setVisibleRemove] = useState(false);
   return (
     <div
-      className={"grid gap-1 p-3 shadow shadow-gray-400/50 w-52 select-none"}
+      className={
+        "grid gap-1 p-3 shadow shadow-gray-400/50 w-52 select-none relative"
+      }
+      onMouseEnter={() => setVisibleRemove(true)}
+      onMouseLeave={() => setVisibleRemove(false)}
     >
       <img src={avatar} alt={"ava"} className={"w-full"} />
       <div>{name}</div>
+      {!save && visibleRemove && (
+        // top right remove button with remove icon
+        <div
+          className={
+            "absolute -top-0 -right-0 bg-red-500 text-white py-2 px-4 rounded"
+          }
+          onClick={remove}
+        >
+          Удалить
+        </div>
+      )}
       {save && (
         <div>
           <button
