@@ -7,14 +7,11 @@ export type User = {
 };
 
 export const getUsers = async () => {
-  const response = await axios.get<User[]>("http://localhost:3000/api/user");
+  const response = await axios.get<User[]>("/api/user");
   return response.data;
 };
 
 export const addUser = async (user: User) => {
-  const response = await axios.post<User>(
-    "http://localhost:3000/api/user",
-    user
-  );
+  const response = await axios.post<User>("/api/user", user);
   return response.data;
 };

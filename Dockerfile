@@ -4,10 +4,7 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-#ENV EDGEDB_DSN="edgedb://edgedb:1123581321@db:5656/edgedb"
-#ENV EDGEDB_CLIENT_TLS_SECURITY="insecure"
 ENV DOCKER=true
-
 
 COPY package.json /usr/src/app
 COPY package-lock.json /usr/src/app
@@ -16,10 +13,10 @@ RUN npm install
 
 COPY . /usr/src/app
 
-RUN unset EDGEDB_CLIENT_TLS_SECURITY EDGEDB_DSN EDGEDB_HOST EDGEDB_INSTANCE EDGEDB_CREDENTIALS EDGEDB_CREDENTIALS_FILE
+RUN unset EDGEDB_HOST EDGEDB_INSTANCE EDGEDB_CREDENTIALS EDGEDB_CREDENTIALS_FILE
 
-RUN env;sleep 15
-RUN npx edgeql-js --dsn=edgedb://edgedb:1123581321@db:5656/edgedb --tls-security=insecure
+RUN #env;sleep 15
+RUN #npx edgeql-js --dsn=edgedb://edgedb:1123581321@db:5656/edgedb --tls-security=insecure
 
 RUN #npm run build
 

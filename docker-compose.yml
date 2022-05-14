@@ -18,11 +18,14 @@ services:
   nextjs:
     env_file:
       - .env
+    environment:
+      EDGEDB_DSN: ${EDGEDB_DOCKER_DSN_OPTIONS2}
+      EDGEDB_CLIENT_TLS_SECURITY: ${EDGEDB_CLIENT_TLS_SECURITY}
     build:
       context: .
     ports:
       - "3000:3000"
-    command: "npx edgeql-js"
+    command: "sh ./run.sh"
     depends_on:
       - db
 
