@@ -3,7 +3,7 @@ import { User } from "../../api/usersClientApi";
 
 export const UserCard: FC<
   User & { save?: (args: User) => void; remove?: () => void }
-> = ({ name, avatar, save, remove }) => {
+> = ({ name, nameLen, nameUpper, avatar, save, remove }) => {
   const [visibleRemove, setVisibleRemove] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const img = useRef<HTMLImageElement>(null);
@@ -35,6 +35,7 @@ export const UserCard: FC<
         className={loaded ? "w-full" : "h-0"}
       />
       <div>{name}</div>
+      <div>{nameLen}</div>
       {!save && visibleRemove && (
         // top right remove button with remove icon
         <div

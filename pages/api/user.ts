@@ -7,6 +7,8 @@ const getUsersQuery = e.select(e.User, () => ({
   id: true,
   name: true,
   avatar: true,
+  nameUpper: true,
+  nameLen: true,
 }));
 
 const addUserQuery: (args: { name: string; avatar: string }) => any = ({
@@ -19,12 +21,6 @@ const addUserQuery: (args: { name: string; avatar: string }) => any = ({
   });
 
 const removeUserQuery = (id: string) => {
-  // return `delete User filter .id = ${id};`;
-  // return e.delete(e.User, {
-  //   filter: {
-  //     user.id == id;
-  //   }
-  // });
   return e.delete(e.User, (user) => ({
     filter: e.op(user.id, `=`, e.uuid(id)),
   }));
@@ -51,12 +47,7 @@ export default async function handler(
     res.status(204).send("");
     return;
   }
-  try {
-    const users = await getUsersQuery.run(client);
-    res.status(200).json(users);
-  } catch (e) {
-    // @ts-ignore
-    res.status(500).json({ error: e?.message });
-    return;
-  }
+
+  const users = await getUsersQuery.run(client);
+  res.status(200).json(users);
 }

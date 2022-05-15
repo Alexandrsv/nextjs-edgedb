@@ -4,6 +4,8 @@ export type User = {
   id?: string;
   name?: string;
   avatar?: string;
+  nameUpper?: string;
+  nameLen?: number;
 };
 
 export const getUsers = async () => {

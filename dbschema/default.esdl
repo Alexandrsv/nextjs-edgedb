@@ -4,5 +4,7 @@ module default {
         constraint exclusive
       ;};
       required property avatar -> str;
+      property nameUpper := str_upper(.name);
+      property nameLen := len(.name);
     }
 }
