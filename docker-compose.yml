@@ -19,7 +19,7 @@ services:
     env_file:
       - .env
     environment:
-      EDGEDB_DSN: ${EDGEDB_DOCKER_DSN_OPTIONS2}
+      EDGEDB_DSN: ${EDGEDB_DOCKER_DSN_OPTIONS}
       EDGEDB_CLIENT_TLS_SECURITY: ${EDGEDB_CLIENT_TLS_SECURITY}
     build:
       context: .
