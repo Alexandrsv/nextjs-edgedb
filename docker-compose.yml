@@ -24,7 +24,7 @@ services:
     build:
       context: .
     ports:
-      - "3000:3000"
+      - ${NEXTJS_DOCKER_PORT}:"3000"
     command: "sh ./run.sh"
     depends_on:
       - db
