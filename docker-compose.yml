@@ -23,9 +23,12 @@ services:
       EDGEDB_CLIENT_TLS_SECURITY: ${EDGEDB_CLIENT_TLS_SECURITY}
     build:
       context: .
+      args:
+        EDGEDB_DSN: ${EDGEDB_DOCKER_DSN_OPTIONS}
+        EDGEDB_CLIENT_TLS_SECURITY: ${EDGEDB_CLIENT_TLS_SECURITY}
     ports:
       - ${NEXTJS_DOCKER_PORT}:3000
-    command: "sh ./run.sh"
+#    command: "sh ./run.sh"
     depends_on:
       - db
 
