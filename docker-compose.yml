@@ -11,7 +11,7 @@ services:
       EDGEDB_SERVER_SECURITY: insecure_dev_mode
     volumes:
       - "./dbschema:/dbschema"
-      #      - "./credentials:/root/.config/edgedb/credentials"
+#      - "./credentials:/root/.config/edgedb/credentials"
       - "./data:/var/lib/edgedb/data"
     ports:
       - ${EDGEDB_DOCKER_PORT}:5656
@@ -31,4 +31,3 @@ services:
 #    command: "sh ./run.sh"
     depends_on:
       - db
-
